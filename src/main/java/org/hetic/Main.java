@@ -2,6 +2,7 @@ package org.hetic;
 
 import org.hetic.adapters.repository.InMemoryChunkRepository;
 import org.hetic.adapters.strategy.RabinChunkingStrategy;
+import org.hetic.adapters.strategy.SHA256HashingStrategy;
 import org.hetic.domain.ChunkingService;
 
 import java.io.File;
@@ -13,8 +14,13 @@ public class Main {
 
         InMemoryChunkRepository inMemoryChunkRepository = new InMemoryChunkRepository();
         RabinChunkingStrategy rabinChunkingStrategy = new RabinChunkingStrategy();
+        SHA256HashingStrategy hashingStrategy = new SHA256HashingStrategy();
 
-        ChunkingService inMemoryService = new ChunkingService(inMemoryChunkRepository, rabinChunkingStrategy);
+        ChunkingService inMemoryService = new ChunkingService(
+            inMemoryChunkRepository, 
+            rabinChunkingStrategy,
+            hashingStrategy
+        );
         inMemoryService.processFile(file);
 
         inMemoryChunkRepository.getStorage().forEach(chunk -> System.out.println(chunk.length));
