@@ -6,7 +6,11 @@ import org.hetic.adapters.strategy.SHA256HashingStrategy;
 import org.hetic.domain.ChunkingService;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -21,7 +25,13 @@ public class Main {
             rabinChunkingStrategy,
             hashingStrategy
         );
+
+        Instant start = Instant.now();
         inMemoryService.processFile(file);
+        Instant end = Instant.now();
+
+        Duration timeElapsed = Duration.between(start, end);
+        System.out.println("Time taken: " + timeElapsed.toMillis() + " ms");
 
         inMemoryChunkRepository.getStorage().forEach(chunk -> System.out.println(chunk.length));
     }
