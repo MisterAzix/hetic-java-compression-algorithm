@@ -16,12 +16,6 @@ public class Main {
     public static void main(String[] args) throws IOException {
         File file = new File("src/main/resources/file.txt");
 
-        byte[] content = new byte[10240];
-        Arrays.fill(content, (byte) 1);
-        try (FileOutputStream fos = new FileOutputStream(file)) {
-            fos.write(content);
-        }
-
         InMemoryChunkRepository inMemoryChunkRepository = new InMemoryChunkRepository();
         RabinChunkingStrategy rabinChunkingStrategy = new RabinChunkingStrategy();
         SHA256HashingStrategy hashingStrategy = new SHA256HashingStrategy();
