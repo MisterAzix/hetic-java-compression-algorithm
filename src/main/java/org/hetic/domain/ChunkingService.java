@@ -4,6 +4,7 @@ import org.hetic.domain.model.Chunk;
 import org.hetic.domain.repository.ChunkRepository;
 import org.hetic.domain.repository.FileRepository;
 import org.hetic.domain.strategy.ChunkingStrategy;
+import org.hetic.domain.strategy.CompressionStrategy;
 import org.hetic.domain.strategy.HashingStrategy;
 
 import java.io.*;
