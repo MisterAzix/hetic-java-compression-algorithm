@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RabinChunkingStrategy implements ChunkingStrategy {
-    private static final int MIN_CHUNK_SIZE = 2048;    // 2KB minimum
-    private static final int MAX_CHUNK_SIZE = 16384;    // 16KB maximum
+    private static final int MIN_CHUNK_SIZE = 16;    // 16B minimum
+    private static final int MAX_CHUNK_SIZE = 64;    // 64B maximum
     private static final int WINDOW_SIZE = 48;          // Rolling window size
     private static final long MASK = (1L << 13) - 1;    // 13-bit mask for boundary detection
 
