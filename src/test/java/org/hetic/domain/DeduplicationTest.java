@@ -28,7 +28,7 @@ class DeduplicationTest {
 
     @Test
     void should_detect_duplicate_chunks() throws IOException {
-        File tempFile = File.createTempFile("test", ".txt");
+        File tempFile = File.createTempFile("temp", ".txt");
         byte[] duplicateContent = new byte[4096]; // 4KB
         Arrays.fill(duplicateContent, (byte) 1);
         byte[] fullContent = Arrays.copyOf(duplicateContent, duplicateContent.length * 2);

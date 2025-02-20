@@ -33,9 +33,15 @@ class ChunkingServiceTest {
 
     @Test
     void should_produce_expected_chunk_sizes() throws IOException {
-        File file = new File("src/test/resources/test.txt");
-        byte[] content = new byte[52613];
-        Arrays.fill(content, (byte) 1);
+        File file = new File("src/test/resources/test_temp.txt");
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 5261; i++) {
+            sb.append("11111 ");
+            sb.append("22222 ");
+            sb.append("33333 ");
+            sb.append("44444 ");
+        }
+        byte[] content = sb.toString().getBytes();
     
         try (FileOutputStream fos = new FileOutputStream(file)) {
             fos.write(content);
