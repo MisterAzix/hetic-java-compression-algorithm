@@ -5,14 +5,12 @@ import com.zaxxer.hikari.HikariDataSource;
 
 import javax.sql.DataSource;
 
-public class DataSourceConfig {
+public class SQLiteDataSourceConfig {
     private static final HikariDataSource dataSource;
 
     static {
         HikariConfig config = new HikariConfig();
-        config.setJdbcUrl("jdbc:postgresql://localhost:5432/hetic");
-        config.setUsername("postgres");
-        config.setPassword("password");
+        config.setJdbcUrl("jdbc:sqlite:src/main/resources/hetic.db");
         config.setMaximumPoolSize(10);
         config.setMinimumIdle(2);
         config.setIdleTimeout(30000);

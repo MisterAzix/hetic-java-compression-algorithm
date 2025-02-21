@@ -1,19 +1,22 @@
-package org.hetic.adapters.postgresql;
+package org.hetic.adapters.sqlite;
 
+import org.hetic.config.SQLiteDataSourceConfig;
 import org.hetic.domain.repository.FileRepository;
-import org.hetic.config.PostgreSQLDataSourceConfig;
 
 import javax.sql.DataSource;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class PostgreSQLFileRepository implements FileRepository {
+public class SQLiteFileRepository implements FileRepository {
     private final DataSource dataSource;
 
-    public PostgreSQLFileRepository() {
-        this.dataSource = PostgreSQLDataSourceConfig.getDataSource();
+    public SQLiteFileRepository() {
+        this.dataSource = SQLiteDataSourceConfig.getDataSource();
     }
 
     @Override

@@ -1,18 +1,18 @@
-package org.hetic.adapters.postgresql;
+package org.hetic.adapters.sqlite;
 
+import org.hetic.config.SQLiteDataSourceConfig;
 import org.hetic.domain.repository.ChunkRepository;
-import org.hetic.config.PostgreSQLDataSourceConfig;
 
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PostgreSQLChunkRepository implements ChunkRepository {
+public class SQLiteChunkRepository implements ChunkRepository {
     private final DataSource dataSource;
 
-    public PostgreSQLChunkRepository() {
-        this.dataSource = PostgreSQLDataSourceConfig.getDataSource();
+    public SQLiteChunkRepository() {
+        this.dataSource = SQLiteDataSourceConfig.getDataSource();
     }
 
     @Override
