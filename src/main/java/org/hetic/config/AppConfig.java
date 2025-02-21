@@ -26,7 +26,7 @@ public class AppConfig {
         return Boolean.parseBoolean(properties.getProperty("compression.enabled", "false"));
     }
 
-    public static String getCompressionAlgorithm() {
+    public static String getDecompressionAlgorithm() {
         return properties.getProperty("compression.algorithm", "zstd");
     }
 }
