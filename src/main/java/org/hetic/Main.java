@@ -1,9 +1,9 @@
 package org.hetic;
 
-import org.hetic.adapters.inMemory.InMemoryChunkRepository;
-import org.hetic.adapters.inMemory.InMemoryFileRepository;
 import org.hetic.adapters.rabin.RabinChunkingStrategy;
 import org.hetic.adapters.sha256.SHA256HashingStrategy;
+import org.hetic.adapters.sqlite.SQLiteChunkRepository;
+import org.hetic.adapters.sqlite.SQLiteFileRepository;
 import org.hetic.config.AppConfig;
 import org.hetic.domain.ChunkingService;
 import org.hetic.domain.factory.CompressionFactory;
@@ -16,8 +16,8 @@ import java.time.Instant;
 import java.util.Map;
 
 public class Main {
-    static InMemoryChunkRepository inMemoryChunkRepository = new InMemoryChunkRepository();
-    static InMemoryFileRepository inMemoryFileRepository = new InMemoryFileRepository();
+    static SQLiteChunkRepository sqLiteChunkRepository = new SQLiteChunkRepository();
+    static SQLiteFileRepository sqLiteFileRepository = new SQLiteFileRepository();
     static RabinChunkingStrategy rabinChunkingStrategy = new RabinChunkingStrategy();
     static SHA256HashingStrategy hashingStrategy = new SHA256HashingStrategy();
     static CompressionFactory compressionFactory = new CompressionFactory();
@@ -28,8 +28,8 @@ public class Main {
         File file = new File("src/main/resources/test_image_duplication.png");
 
         ChunkingService inMemoryService = new ChunkingService(
-                inMemoryChunkRepository,
-                inMemoryFileRepository,
+                sqLiteChunkRepository,
+                sqLiteFileRepository,
                 rabinChunkingStrategy,
                 hashingStrategy,
                 compressionFactory,
@@ -75,7 +75,7 @@ public class Main {
         Duration timeElapsed = Duration.between(start, end);
         System.out.println("Time taken: " + timeElapsed.toMillis() + " ms");
 
-        Map<String, byte[]> chunks = inMemoryChunkRepository.getAllChunks();
+        Map<String, byte[]> chunks = sqLiteChunkRepository.getAllChunks();
         int finalSize = chunks.values().stream().mapToInt(chunk -> chunk.length).sum();
         double compressionPercentage = ((double) (initialSize - finalSize) / initialSize) * 100;
         System.out.printf("Initial size: %d bytes, Final size: %d bytes, Compression: %.2f%%\n", initialSize, finalSize, compressionPercentage);
@@ -95,7 +95,7 @@ public class Main {
         Duration timeElapsed = Duration.between(start, end);
         System.out.println("Time taken: " + timeElapsed.toMillis() + " ms");
 
-        Map<String, byte[]> chunks = inMemoryChunkRepository.getAllChunks();
+        Map<String, byte[]> chunks = sqLiteChunkRepository.getAllChunks();
         int finalSize = chunks.values().stream().mapToInt(chunk -> chunk.length).sum();
         double compressionPercentage = ((double) (initialSize - finalSize) / initialSize) * 100;
         System.out.printf("Initial size: %d bytes, Final size: %d bytes, Compression: %.2f%%\n", initialSize, finalSize, compressionPercentage);
