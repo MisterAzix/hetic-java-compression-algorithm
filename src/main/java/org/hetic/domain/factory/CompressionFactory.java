@@ -1,4 +1,4 @@
-package org.hetic.domain;
+package org.hetic.domain.factory;
 
 import org.hetic.adapters.snappy.SnappyCompressionStrategy;
 import org.hetic.adapters.zstd.ZstdCompressionStrategy;

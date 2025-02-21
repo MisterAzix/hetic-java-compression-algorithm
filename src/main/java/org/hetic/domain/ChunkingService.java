@@ -1,5 +1,6 @@
 package org.hetic.domain;
 
+import org.hetic.domain.factory.CompressionFactory;
 import org.hetic.domain.model.Chunk;
 import org.hetic.domain.repository.ChunkRepository;
 import org.hetic.domain.repository.FileRepository;
@@ -48,6 +49,27 @@ public class ChunkingService {
                 }
                 fileRepository.addChunkToFile(fileIdentifier, hash);
             }
+        }
+    }
+
+    public void processWholeFile(File file) throws IOException {
+        String fileIdentifier = file.getName();
+        byte[] content = getFileContent(file);
+        if (AppConfig.isCompressionEnabled()) {
+            CompressionStrategy strategy = compressionFactory.getStrategy(AppConfig.getCompressionAlgorithm());
+            content = strategy.compress(content);
+        }
+        String hash = hashingStrategy.hash(content);
+        boolean isChunkDuplicate = chunkRepository.isChunkDuplicate(hash);
+        if (!isChunkDuplicate) {
+            chunkRepository.storeChunkWithHash(hash, content);
+        }
+        fileRepository.addChunkToFile(fileIdentifier, hash);
+    }
+
+    private byte[] getFileContent(File file) throws IOException {
+        try (InputStream inputStream = new BufferedInputStream(new FileInputStream(file))) {
+            return inputStream.readAllBytes();
         }
     }
 }

@@ -4,6 +4,7 @@ import org.hetic.adapters.inMemory.InMemoryChunkRepository;
 import org.hetic.adapters.inMemory.InMemoryFileRepository;
 import org.hetic.adapters.rabin.RabinChunkingStrategy;
 import org.hetic.adapters.sha256.SHA256HashingStrategy;
+import org.hetic.domain.factory.CompressionFactory;
 import org.hetic.domain.model.Chunk;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
