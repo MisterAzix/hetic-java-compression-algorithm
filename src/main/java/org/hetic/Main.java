@@ -7,6 +7,7 @@ import org.hetic.adapters.sha256.SHA256HashingStrategy;
 import org.hetic.config.AppConfig;
 import org.hetic.domain.ChunkingService;
 import org.hetic.domain.factory.CompressionFactory;
+import org.hetic.domain.factory.DecompressionFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,6 +21,7 @@ public class Main {
     static RabinChunkingStrategy rabinChunkingStrategy = new RabinChunkingStrategy();
     static SHA256HashingStrategy hashingStrategy = new SHA256HashingStrategy();
     static CompressionFactory compressionFactory = new CompressionFactory();
+    static DecompressionFactory decompressionFactory = new DecompressionFactory();
 
     public static void main(String[] args) throws IOException {
         printSplashScreen();
@@ -30,7 +32,8 @@ public class Main {
                 inMemoryFileRepository,
                 rabinChunkingStrategy,
                 hashingStrategy,
-                compressionFactory
+                compressionFactory,
+                decompressionFactory
         );
 
         String mode = AppConfig.getMode();
@@ -41,6 +44,9 @@ public class Main {
                 break;
             case "whole":
                 wholeFileMode(inMemoryService, file);
+                break;
+            case "build":
+                buildFileMode(inMemoryService, "test_image_duplication.png");
                 break;
             default:
                 throw new IllegalArgumentException("Invalid processing mode!");
@@ -60,7 +66,7 @@ public class Main {
         System.out.println("Start processing file...\n");
         System.out.printf("File: %s (%d bytes)\n", file.getName(), initialSize);
         System.out.printf("Compression: %s\n", AppConfig.isCompressionEnabled() ? "Enabled" : "Disabled");
-        System.out.printf("Algorithm: %s\n\n", AppConfig.getCompressionAlgorithm());
+        System.out.printf("Algorithm: %s\n\n", AppConfig.getDecompressionAlgorithm());
 
         Instant start = Instant.now();
         inMemoryService.processFile(file);
@@ -80,7 +86,7 @@ public class Main {
         System.out.println("Start processing file...\n");
         System.out.printf("File: %s (%d bytes)\n", file.getName(), initialSize);
         System.out.printf("Compression: %s\n", AppConfig.isCompressionEnabled() ? "Enabled" : "Disabled");
-        System.out.printf("Algorithm: %s\n\n", AppConfig.getCompressionAlgorithm());
+        System.out.printf("Algorithm: %s\n\n", AppConfig.getDecompressionAlgorithm());
 
         Instant start = Instant.now();
         inMemoryService.processWholeFile(file);
@@ -93,5 +99,19 @@ public class Main {
         int finalSize = chunks.values().stream().mapToInt(chunk -> chunk.length).sum();
         double compressionPercentage = ((double) (initialSize - finalSize) / initialSize) * 100;
         System.out.printf("Initial size: %d bytes, Final size: %d bytes, Compression: %.2f%%\n", initialSize, finalSize, compressionPercentage);
+    }
+
+    private static void buildFileMode(ChunkingService inMemoryService, String fileIdentifier) throws IOException {
+        System.out.println("Start building file...\n");
+        System.out.printf("File: %s\n", fileIdentifier);
+        System.out.printf("Compression: %s\n", AppConfig.isCompressionEnabled() ? "Enabled" : "Disabled");
+        System.out.printf("Algorithm: %s\n\n", AppConfig.getDecompressionAlgorithm());
+
+        Instant start = Instant.now();
+        inMemoryService.buildFile(fileIdentifier, new File("src/main/resources/output.png"));
+        Instant end = Instant.now();
+
+        Duration timeElapsed = Duration.between(start, end);
+        System.out.println("Time taken: " + timeElapsed.toMillis() + " ms");
     }
 }
