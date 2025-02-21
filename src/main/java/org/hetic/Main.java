@@ -6,6 +6,7 @@ import org.hetic.adapters.rabin.RabinChunkingStrategy;
 import org.hetic.adapters.sha256.SHA256HashingStrategy;
 import org.hetic.adapters.zstd.ZstdCompressionStrategy;
 import org.hetic.domain.ChunkingService;
+import org.hetic.domain.CompressionFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,14 +21,14 @@ public class Main {
         InMemoryFileRepository inMemoryFileRepository = new InMemoryFileRepository();
         RabinChunkingStrategy rabinChunkingStrategy = new RabinChunkingStrategy();
         SHA256HashingStrategy hashingStrategy = new SHA256HashingStrategy();
-        ZstdCompressionStrategy compressionStrategy = new ZstdCompressionStrategy();
+        CompressionFactory compressionFactory = new CompressionFactory();
 
         ChunkingService inMemoryService = new ChunkingService(
                 inMemoryChunkRepository,
                 inMemoryFileRepository,
                 rabinChunkingStrategy,
                 hashingStrategy,
-                compressionStrategy
+                compressionFactory
         );
 
         Instant start = Instant.now();

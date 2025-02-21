@@ -4,7 +4,6 @@ import org.hetic.adapters.inMemory.InMemoryChunkRepository;
 import org.hetic.adapters.inMemory.InMemoryFileRepository;
 import org.hetic.adapters.rabin.RabinChunkingStrategy;
 import org.hetic.adapters.sha256.SHA256HashingStrategy;
-import org.hetic.adapters.zstd.ZstdCompressionStrategy;
 import org.hetic.domain.model.Chunk;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,8 +26,8 @@ class ChunkingServiceTest {
         fileRepository = new InMemoryFileRepository();
         rabinChunkingStrategy = new RabinChunkingStrategy();
         SHA256HashingStrategy hashingStrategy = new SHA256HashingStrategy();
-        ZstdCompressionStrategy compressionStrategy = new ZstdCompressionStrategy();
-        chunkingService = new ChunkingService(chunkRepository, fileRepository, rabinChunkingStrategy, hashingStrategy, compressionStrategy);
+        CompressionFactory compressionFactory = new CompressionFactory();
+        chunkingService = new ChunkingService(chunkRepository, fileRepository, rabinChunkingStrategy, hashingStrategy, compressionFactory);
     }
 
     @Test

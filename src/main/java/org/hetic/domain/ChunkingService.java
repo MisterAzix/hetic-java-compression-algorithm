@@ -16,18 +16,18 @@ public class ChunkingService {
     private final FileRepository fileRepository;
     private final ChunkingStrategy chunkingStrategy;
     private final HashingStrategy hashingStrategy;
-    private final CompressionStrategy compressionStrategy;
+    private final CompressionFactory compressionFactory;
 
     public ChunkingService(ChunkRepository chunkRepository,
                            FileRepository fileRepository,
                            ChunkingStrategy chunkingStrategy,
                            HashingStrategy hashingStrategy,
-                           CompressionStrategy compressionStrategy) {
+                           CompressionFactory compressionFactory) {
         this.chunkRepository = chunkRepository;
         this.fileRepository = fileRepository;
         this.chunkingStrategy = chunkingStrategy;
         this.hashingStrategy = hashingStrategy;
-        this.compressionStrategy = compressionStrategy;
+        this.compressionFactory = compressionFactory;
     }
 
     public void processFile(File file) throws IOException {
@@ -38,7 +38,8 @@ public class ChunkingService {
             for (Chunk chunk : chunks) {
                 byte[] content = chunk.getContent();
                 if (AppConfig.isCompressionEnabled()) {
-                    content = compressionStrategy.compress(content);
+                    CompressionStrategy strategy = compressionFactory.getStrategy(AppConfig.getCompressionAlgorithm());
+                    content = strategy.compress(content);
                 }
                 String hash = hashingStrategy.hash(content);
                 boolean isChunkDuplicate = chunkRepository.isChunkDuplicate(hash);

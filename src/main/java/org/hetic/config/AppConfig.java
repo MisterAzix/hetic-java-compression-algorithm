@@ -21,4 +21,8 @@ public class AppConfig {
     public static boolean isCompressionEnabled() {
         return Boolean.parseBoolean(properties.getProperty("compression.enabled", "false"));
     }
+
+    public static String getCompressionAlgorithm() {
+        return properties.getProperty("compression.algorithm", "gzip");
+    }
 }
