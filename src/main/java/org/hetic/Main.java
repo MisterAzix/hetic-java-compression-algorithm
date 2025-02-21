@@ -2,9 +2,9 @@ package org.hetic;
 
 import org.hetic.adapters.inMemory.InMemoryChunkRepository;
 import org.hetic.adapters.inMemory.InMemoryFileRepository;
-import org.hetic.adapters.strategy.RabinChunkingStrategy;
-import org.hetic.adapters.strategy.SHA256HashingStrategy;
-import org.hetic.adapters.strategy.ZstdCompressionStrategy;
+import org.hetic.adapters.rabin.RabinChunkingStrategy;
+import org.hetic.adapters.sha256.SHA256HashingStrategy;
+import org.hetic.adapters.zstd.ZstdCompressionStrategy;
 import org.hetic.domain.ChunkingService;
 
 import java.io.File;

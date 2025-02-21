@@ -1,7 +1,7 @@
 package org.hetic.domain;
 
-import org.hetic.adapters.strategy.RabinChunkingStrategy;
-import org.hetic.adapters.strategy.ZstdCompressionStrategy;
+import org.hetic.adapters.rabin.RabinChunkingStrategy;
+import org.hetic.adapters.zstd.ZstdCompressionStrategy;
 import org.hetic.domain.model.Chunk;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package org.hetic.adapters.strategy;
+package org.hetic.adapters.rabin;
 
 import org.hetic.domain.model.Chunk;
 import org.hetic.domain.strategy.ChunkingStrategy;

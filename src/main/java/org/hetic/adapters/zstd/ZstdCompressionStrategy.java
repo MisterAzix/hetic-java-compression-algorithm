@@ -1,4 +1,4 @@
-package org.hetic.adapters.strategy;
+package org.hetic.adapters.zstd;
 
 import org.hetic.domain.strategy.CompressionStrategy;
 import com.github.luben.zstd.Zstd;
