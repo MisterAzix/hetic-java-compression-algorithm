@@ -2,8 +2,9 @@ package org.hetic.domain;
 
 import org.hetic.adapters.inMemory.InMemoryChunkRepository;
 import org.hetic.adapters.inMemory.InMemoryFileRepository;
-import org.hetic.adapters.strategy.RabinChunkingStrategy;
-import org.hetic.adapters.strategy.SHA256HashingStrategy;
+import org.hetic.adapters.rabin.RabinChunkingStrategy;
+import org.hetic.adapters.sha256.SHA256HashingStrategy;
+import org.hetic.domain.factory.CompressionFactory;
 import org.hetic.domain.model.Chunk;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,14 +27,15 @@ class ChunkingServiceTest {
         fileRepository = new InMemoryFileRepository();
         rabinChunkingStrategy = new RabinChunkingStrategy();
         SHA256HashingStrategy hashingStrategy = new SHA256HashingStrategy();
-        chunkingService = new ChunkingService(chunkRepository, fileRepository, rabinChunkingStrategy, hashingStrategy);
+        CompressionFactory compressionFactory = new CompressionFactory();
+        chunkingService = new ChunkingService(chunkRepository, fileRepository, rabinChunkingStrategy, hashingStrategy, compressionFactory);
     }
 
     @Test
     void should_produce_expected_chunk_sizes() throws IOException {
         // Given
         File file = new File("src/test/resources/test.txt");
-        int expectedChunksLength = 734;
+        int expectedChunksLength = 290;
 
         // When
         chunkingService.processFile(file);
@@ -47,8 +49,8 @@ class ChunkingServiceTest {
     void should_store_only_unique_chunks() throws IOException {
         //Given
         File file = new File("src/test/resources/file_with_duplication.txt");
-        int expectedChunksLength = 338;
-        int expectedStoredChunksLength = 66;
+        int expectedChunksLength = 137;
+        int expectedStoredChunksLength = 129;
 
         // When
         chunkingService.processFile(file);

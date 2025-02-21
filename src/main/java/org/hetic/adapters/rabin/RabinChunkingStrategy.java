@@ -1,4 +1,4 @@
-package org.hetic.adapters.strategy;
+package org.hetic.adapters.rabin;
 
 import org.hetic.domain.model.Chunk;
 import org.hetic.domain.strategy.ChunkingStrategy;
@@ -12,10 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RabinChunkingStrategy implements ChunkingStrategy {
-    private static final int MIN_CHUNK_SIZE = 16;    // 16B minimum
-    private static final int MAX_CHUNK_SIZE = 64;    // 64B maximum
-    private static final int WINDOW_SIZE = 48;          // Rolling window size
-    private static final long MASK = (1L << 13) - 1;    // 13-bit mask for boundary detection
+    private static final int MIN_CHUNK_SIZE = 64;
+    private static final int MAX_CHUNK_SIZE = 256;
+    private static final int WINDOW_SIZE = 48;
+    private static final long MASK = (1L << 7) - 1;
 
 
     private final RabinFingerprintLongWindowed rabin;

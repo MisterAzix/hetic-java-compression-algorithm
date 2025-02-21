@@ -1,6 +1,7 @@
-package org.hetic.adapters.strategy;
+package org.hetic.adapters.sha256;
 
 import org.hetic.domain.strategy.HashingStrategy;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
