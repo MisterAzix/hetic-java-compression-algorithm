@@ -45,18 +45,17 @@ class CompressionTest {
     @Test
     void should_compress_whole_file() throws IOException {
         File file = new File("src/test/resources/file_with_duplication.txt");
-
-        List<Chunk> chunks = chunkingStrategy.chunk(new BufferedInputStream(new FileInputStream(file)));
-        byte[] content = chunks.stream().map(Chunk::getContent).reduce(new byte[0], (a, b) -> {
-            byte[] result = Arrays.copyOf(a, a.length + b.length);
-            System.arraycopy(b, 0, result, a.length, b.length);
-            return result;
-        });
-
+        byte[] content = getFileContent(file);
         int originalSize = content.length;
         byte[] compressedContent = compressionStrategy.compress(content);
         int compressedSize = compressedContent.length;
         System.out.println("Original size: " + originalSize + " bytes, Compressed size: " + compressedSize + " bytes");
         assertTrue(compressedContent.length < content.length, "Compressed content should be smaller than original content");
+    }
+
+    private byte[] getFileContent(File file) throws IOException {
+        try (InputStream inputStream = new BufferedInputStream(new FileInputStream(file))) {
+            return inputStream.readAllBytes();
+        }
     }
 }
